@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { addUser, getUsers, getUser,updateUser } = require('./../handlers/userHandle');
+const { addUser, getUsers, getUserid,updateUser,deleteUser } = require('./../handlers/userHandle');
 
 router.post("/users",async(req,res)=>{
     console.log("req.body", req.body);
@@ -23,6 +23,12 @@ router.get("/users/:id",async(req,res)=>{
 router.put("/users/:id",async(req,res)=>{
     console.log("id",req.params["id"])
     await updateUser(req.params["id"],req.body);
+    res.send();
+});
+
+router.delete("/users/:id",async(req,res)=>{
+    console.log("id",req.params["id"])
+    await deleteUser(req.params["id"]);
     res.send();
 });
 

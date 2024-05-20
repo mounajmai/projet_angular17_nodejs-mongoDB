@@ -8,7 +8,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send("Running");
 });
-app.use(userRoutes);
+app.use('/api', userRoutes);
 
 //connexion à mongoDB
 async function connectDB(){

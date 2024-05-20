@@ -14,7 +14,7 @@ async function getUsers(){
     return users.map(x=>x.toObject());
 
 }
-async function getUser(id){
+async function getUserid(id){
     const user= await User.findById(id);
     return user.toObject();
 
@@ -26,4 +26,9 @@ async function updateUser(id, userModel){
 
 }
 
-module.exports={addUser,getUsers, getUser,updateUser};
+async function deleteUser(id){
+    await User.findByIdAndDelete(id);
+
+}
+
+module.exports={addUser,getUsers, getUserid,updateUser, deleteUser};
