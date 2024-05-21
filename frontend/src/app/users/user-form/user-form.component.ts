@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import User from '../../types/user';
 import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-form',
@@ -22,10 +22,18 @@ export class UserFormComponent {
     address: [''],
     password: ['', [Validators.required, Validators.minLength(8)]],
   });
-
-  
-  userService=inject(UserService);
-  router=inject(Router);
+  userService= inject(UserService);
+  router = inject(Router);
+  route= inject(ActivatedRoute);
+  editUserId!: string;
+  ngOnInit(){
+    this.editUserId = this.route.snapshot.params['id'];
+    if(this.editUserId){
+      this.userService.getUser(this.editUserId).subscribe(result =>{
+        this.userForm.patchValue(result);
+      });
+    }
+  }
   addUser(){
     if(this.userForm.invalid) {
       alert('Please provide all field with valid data');
@@ -38,6 +46,17 @@ export class UserFormComponent {
 
     });
 
+  }
+  updateUser(){
+    if(this.userForm.invalid){
+      alert('Please provide all field with valid data');
+      return;
+    }
+    const model: User = this.userForm.value;
+    this.userService.updateUser(this.editUserId,model).subscribe(result=>{
+      alert('User update successfully.');
+      this.router.navigateByUrl('/');
+    });
   }
 
 }

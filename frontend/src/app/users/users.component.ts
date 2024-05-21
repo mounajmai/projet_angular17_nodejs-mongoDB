@@ -12,14 +12,22 @@ import { RouterLink } from '@angular/router';
   styleUrl: './users.component.css'
 })
 export class UsersComponent {
-  users:User[]=[];
+  users:User[] = [];
   userService = inject(UserService);
   ngOnInit(){
     this.userService.getUsers().subscribe((result)=> {
       this.users =result;
       console.log(this.users);
     });
+  }
+  delete(id:string){
+    const ok=confirm("Are you sure to delete user?");
+    if(ok){
+      this.userService.deleteUser(id).subscribe((result)=>{
+        alert('User deleted successfully');
+        this.users = this.users.filter((u) =>u._id !=id);
+      });
 
-
+    }
   }
 }
