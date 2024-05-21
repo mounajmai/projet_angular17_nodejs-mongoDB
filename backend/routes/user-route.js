@@ -5,8 +5,8 @@ const { addUser, getUsers, getUserid,updateUser,deleteUser } = require('./../han
 router.post("/users",async(req,res)=>{
     console.log("req.body", req.body);
     //user add operation
-    await addUser (req.body);
-    res.send("done");
+    let user = await addUser (req.body);
+    res.send(user);
 });
 
 router.get("/users",async(req,res)=>{
@@ -23,13 +23,13 @@ router.get("/users/:id",async(req,res)=>{
 router.put("/users/:id",async(req,res)=>{
     console.log("id",req.params["id"])
     await updateUser(req.params["id"],req.body);
-    res.send();
+    res.send({});
 });
 
 router.delete("/users/:id",async(req,res)=>{
     console.log("id",req.params["id"])
     await deleteUser(req.params["id"]);
-    res.send();
+    res.send({});
 });
 
 module.exports =router;
